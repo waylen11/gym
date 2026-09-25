@@ -1,0 +1,42 @@
+server:
+  port: 8090
+
+spring:
+  mvc:
+    view:
+      prefix: /
+      suffix: .jsp
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/gym?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+
+  jpa:
+    show-sql: true
+    database: mysql
+    hibernate:
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+
+  data:
+    rest:
+      return-body-on-update: true
+
+  redis:
+    host: 192.168.222.200
+    port: 6379
+    database: 0
+    # password: ??
+    timeout: 5000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: 5000ms
+
+custom:
+  default:
+    password: 123456

@@ -1,0 +1,70 @@
+package com.hyw.gym.controller;
+
+import com.hyw.gym.dao.MemberttypeDao;
+import com.hyw.gym.service.MembertypeDaoImpl;
+import com.hyw.gym.entity.Membertype;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+/**
+ * @Description: 会员卡类型信息Controller控制层
+ */
+@Controller
+@RequestMapping("/metype")
+public class MetypeController {
+
+    @Autowired
+    private MembertypeDaoImpl membertypeDaoImpl;
+    @Autowired
+    private MemberttypeDao memberttypeDao;
+
+    /**
+     * @Description: 会员卡类型-删除
+     */
+    @RequestMapping("/del")
+    @ResponseBody
+    public  Map<String,Object> del(long typeId,String typeName, int pageSize, int pageNumber){
+     memberttypeDao.deleteById(typeId);
+     Map<String,Object>  map1=new HashMap<String,Object>();
+     map1.put("typeName",typeName);
+     map1.put("qi",(pageNumber-1)*pageSize);
+     map1.put("shi",pageSize);
+     return membertypeDaoImpl.query(map1);
+    }
+
+    /**
+     * @Description: 会员卡类型-添加会员卡类型
+     */
+    @RequestMapping("/add")
+    @ResponseBody
+    public  void save(Membertype membertype){
+
+        memberttypeDao.save(membertype);
+    }
+
+    /**
+     * @Description: 会员卡类型-根据id查询
+     */
+    @RequestMapping("/cha")
+    @ResponseBody
+    public Optional<Membertype> one(long typeId){
+        return memberttypeDao.findById(typeId);
+    }
+
+    /**
+     * @Description: 会员卡类型-修改会员卡类型信息
+     */
+    @RequestMapping("/upd")
+    @ResponseBody
+    public  void upd(Membertype membertype){
+        memberttypeDao.save(membertype);
+    }
+
+
+}
