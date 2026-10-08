@@ -79,7 +79,7 @@ public class AuthServiceDaoImpl {
         String token = JwtUtil.createToken(user.getId(), phone);
         // 缓存 token 到 Redis
         redisTemplate.opsForValue()
-                .set(TOKEN_KEY+token, toJson(user), 30, TimeUnit.MINUTES);
+                .set(TOKEN_KEY+token, String.valueOf(user.getId()), 30, TimeUnit.MINUTES);
 
 
 
@@ -100,6 +100,7 @@ public class AuthServiceDaoImpl {
     public User findById(Long id) {
         return userDao.findById(id).orElse(null);
     }
+
     public void update(User user) {
         // 1. 取当前登录用户
         User currentUser = UserHolder.get();
@@ -107,7 +108,7 @@ public class AuthServiceDaoImpl {
             throw new RuntimeException("未登录");
         }
 
-        // 2. 【关键】从数据库查完整数据
+        // 2. 从数据库查完整数据
         User existing = userDao.findById(currentUser.getId())
                 .orElseThrow(() -> new RuntimeException("用户不存在"));
 
@@ -126,7 +127,7 @@ public class AuthServiceDaoImpl {
         UserHolder.save(existing);
 
         // 7. 同步更新 Redis
-        String token = request.getHeader("Authorization");
+      /*  String token = request.getHeader("Authorization");
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
         }
@@ -139,7 +140,7 @@ public class AuthServiceDaoImpl {
                         toJson(existing),
                         ttl, TimeUnit.SECONDS);
             }
-        }
+        }*/
     }
 
     public void logout(String token) {
@@ -154,15 +155,17 @@ public class AuthServiceDaoImpl {
         redisTemplate.delete(TOKEN_KEY + token);
     }
 
+
+
     /**
      * 统一用 Jackson 序列化用户信息,避免 Hutool 无视 @JsonIgnore 导致的双向关联栈溢出
      */
-    private String toJson(User user) {
+   /* private String toJson(User user) {
         try {
             return objectMapper.writeValueAsString(user);
         } catch (JsonProcessingException e) {
             log.error("用户信息序列化失败, userId={}", user.getId(), e);
             throw new RuntimeException("登录信息处理失败", e);
         }
-    }
+    }*/
 }

@@ -22,7 +22,7 @@ public class User {
     private String loginName;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-    private Integer userType;
+      private Integer userType;
     private String realName;
     private String phone;
     private Integer sex;

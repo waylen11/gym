@@ -3,6 +3,7 @@ package com.hyw.gym.interceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hyw.gym.common.JwtUtil;
 import com.hyw.gym.common.UserHolder;
+import com.hyw.gym.dao.UserDao;
 import com.hyw.gym.entity.User;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 @RequiredArgsConstructor
 public class LoginInterceptor implements HandlerInterceptor {
-
+    private final UserDao userDao;
     private final StringRedisTemplate redisTemplate;
     // 与 AuthServiceDaoImpl 保持一致,统一使用 Jackson 序列化用户信息
     private final ObjectMapper objectMapper;
@@ -48,17 +49,20 @@ public class LoginInterceptor implements HandlerInterceptor {
 
             // 4. 查 Redis 拿 userJson
             String tokenKey = TOKEN_KEY + token;
-            String userJson = redisTemplate.opsForValue().get(tokenKey);
-            if (userJson == null) {
+            String userId = redisTemplate.opsForValue().get(tokenKey);
+            if (userId == null) {
                 response.setStatus(401);
                 return false;
             }
 
             // 5. 续期
-            redisTemplate.expire(tokenKey, 30, TimeUnit.MINUTES);
+            //redisTemplate.expire(tokenKey, 30, TimeUnit.MINUTES);
+            //测试专用时长
+            redisTemplate.expire(tokenKey, 7 * 24, TimeUnit.HOURS);
 
             // 6. JSON 转 User(Jackson 反序列化,与登录时写入 Redis 的序列化方式一致)
-            User user = objectMapper.readValue(userJson, User.class);
+          User user = userDao.findById(Long.valueOf(userId)).orElse(null);
+
 
             // 7. 存 UserHolder
             UserHolder.save(user);

@@ -54,7 +54,7 @@ public class ShiroConfig {
         return simpleCookie;
     }
 
-    @Bean
+    @Bean(destroyMethod = "destroy")
     public EhCacheManager getEhCacheManager(){
         EhCacheManager ehCacheManager = new EhCacheManager() ;
         ehCacheManager.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");

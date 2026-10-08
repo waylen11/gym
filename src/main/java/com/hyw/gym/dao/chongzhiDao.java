@@ -18,6 +18,6 @@ public interface chongzhiDao extends JpaRepository<Chongzhi,Long> {
 
     Page<Chongzhi> findAll(Specification<Chongzhi> specification, Pageable pageable);
 
-    @Query(value = "select * FROM recharge_record where member_id =:memberid",nativeQuery = true)
+    @Query(value = "select * FROM recharge_record where member_id =:memberid ORDER BY recharge_id DESC",nativeQuery = true)
     public List<Chongzhi> queryByIdNative(@Param("memberid") long memberid) ;
 }

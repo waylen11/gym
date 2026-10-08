@@ -27,4 +27,9 @@ public interface UserDao extends JpaRepository<User,Long> {
 
     User findByPhone(String phone);
 
+    //查询在职教练
+    @Query("select u from User u where u.userType = 1 and (u.coachStatic = 0 or u.coachStatic is null)")
+    List<User> findActiveCoaches();
+
+
 }

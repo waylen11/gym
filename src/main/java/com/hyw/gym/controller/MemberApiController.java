@@ -2,15 +2,15 @@ package com.hyw.gym.controller;
 
 import com.hyw.gym.common.Result;
 import com.hyw.gym.common.UserHolder;
+import com.hyw.gym.dto.MemberInfoDto;
 import com.hyw.gym.entity.User;
 import com.hyw.gym.service.AuthServiceDaoImpl;
 import com.hyw.gym.service.MembertypeDaoImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Member;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/member")
@@ -37,12 +37,17 @@ public class MemberApiController {
     }
     // 获取当前用户信息
     @GetMapping("/me")
-    public Result<User> me() {
+    public Result<MemberInfoDto> me() {
         User user = UserHolder.get();
         if (user == null) {
             return Result.error(401, "未登录");
         }
-        return Result.success(user);
+        MemberInfoDto memberInfoDto=new MemberInfoDto();
+        BeanUtils.copyProperties(user,memberInfoDto);
+        if (memberInfoDto.getSex()==0){
+            memberInfoDto.setGender("男");
+        }else memberInfoDto.setGender("女");
+        return Result.success(memberInfoDto);
     }
     // 退出登录
     @PostMapping("/logout")
@@ -55,11 +60,5 @@ public class MemberApiController {
     public Result<List> showCardType(){
         List list = membertypeDao.cha();
         return Result.success(list);
-    }
-    // 购买会员卡
-    @PostMapping("/renew")
-    public Result<String> renew() {
-
-        return Result.success("购买成功");
     }
 }

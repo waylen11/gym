@@ -10,11 +10,13 @@ import java.util.Map;
 
 public class JwtUtil {
 
-    // 密钥，生产环境放配置文件，别硬编码
+    // 密钥
     private static final String SECRET = "hyw-gym-secret-key-2026";
 
     // 过期时间：30 分钟
-    private static final long EXPIRE = 30 * 60 * 10000;
+    //private static final long EXPIRE = 30 * 60 * 1000L;
+    //测试专用7天
+    private static final long EXPIRE = 7 * 24 * 60 * 60 * 1000L;
 
     /**
      * 生成 JWT
