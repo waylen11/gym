@@ -587,7 +587,7 @@
                         aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">❤增加新教练信息</h4>
+                <h4 class="modal-title" id="myModalLabel">❤添加会员私教课程</h4>
             </div>
             <div class="modal-body">
                 <!-- form开始 -->

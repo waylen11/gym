@@ -61,4 +61,5 @@ public class MemberApiController {
         List list = membertypeDao.cha();
         return Result.success(list);
     }
+
 }

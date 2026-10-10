@@ -103,19 +103,22 @@ public class chongzhiController {
     @RequestMapping("/tongji")
     @ResponseBody
     public long[] Tongji(){
-        // 动态获取当前年份,统计当年12个月的收入
+        // 动态获取当前年份,统计当年12个月的收入（会员卡购买/续费 + 私教课购买）
         int year = Calendar.getInstance().get(Calendar.YEAR);
         long[] inter = new long[12];
         for (int i = 0; i < 12; i++){
             String month = String.format("%d-%02d", year, i + 1);
+            // 收入1：会员卡购买/续费金额（recharge_record）
             String jpa="select sum(a.money) from Chongzhi as a where rechargeTime like('%"+month+"%')";
             Query query=entityManager.createQuery(jpa);
             Object obj = query.getSingleResult();
-            if(obj==null){
-            	inter[i] = 0;
-            }else{
-            	inter[i] = (Long)obj;
-            }
+            long cardMoney = (obj == null) ? 0 : (Long) obj;
+            // 收入2：私教课购买实付金额（private_coach_record.realprice）
+            String jpa2="select sum(b.realprice) from PrivateCoachInfo as b where courseDate like('%"+month+"%')";
+            Query query2=entityManager.createQuery(jpa2);
+            Object obj2 = query2.getSingleResult();
+            long privateMoney = (obj2 == null) ? 0 : ((Number) obj2).longValue();
+            inter[i] = cardMoney + privateMoney;
         }
         return inter;
    }
