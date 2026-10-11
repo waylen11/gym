@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -47,6 +48,24 @@ public class AuthServiceDaoImpl {
         if (phone == null || !phone.matches("^1[3-9]\\d{9}$")) {
             return Result.error(400, "手机号格式错误");
         }
+
+        // 防刷①：每日发送上限（10 次/手机号/天），INCR 原子计数
+        String dayKey = LIMIT_KEY + "day:" + phone + ":" + LocalDate.now();
+        Long dayCount = redisTemplate.opsForValue().increment(dayKey, 1);
+        if (dayCount != null && dayCount == 1) {
+            redisTemplate.expire(dayKey, 24, TimeUnit.HOURS);   // 第一次计数时设 TTL
+        }
+        if (dayCount != null && dayCount > 10) {
+            return Result.error(400, "今日发送验证码次数已达上限");
+        }
+
+        // 防刷②：60 秒内同一手机号只能发一次（SETNX 原子，防连点）
+        String intervalKey = LIMIT_KEY + "interval:" + phone;
+        Boolean first = redisTemplate.opsForValue().setIfAbsent(intervalKey, "1");
+        if (!Boolean.TRUE.equals(first)) {
+            return Result.error(400, "发送太频繁，请 60 秒后再试");
+        }
+        redisTemplate.expire(intervalKey, 60, TimeUnit.SECONDS);
 
         String code = RandomUtil.randomNumbers(6);
 
@@ -77,11 +96,11 @@ public class AuthServiceDaoImpl {
         }
         // 登录成功
         String token = JwtUtil.createToken(user.getId(), phone);
-        // 缓存 token 到 Redis
+        // 缓存 token 到 Redis：7 天，与拦截器续期保持一致（原 30 分钟会导致 30 分钟不活跃就 401）
         redisTemplate.opsForValue()
-                .set(TOKEN_KEY+token, String.valueOf(user.getId()), 30, TimeUnit.MINUTES);
-
-
+                .set(TOKEN_KEY + token, String.valueOf(user.getId()), 7 * 24, TimeUnit.HOURS);
+        // 验证码一次性：登录成功即删除，防止同一验证码被重复使用
+        redisTemplate.delete(codeKey);
 
         return Result.success(token);
     }
