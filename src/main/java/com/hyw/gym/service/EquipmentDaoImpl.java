@@ -1,4 +1,5 @@
 package com.hyw.gym.service;
+// @author 黄元威
 
 import com.hyw.gym.dao.EquipmentDao;
 import com.hyw.gym.entity.Equipment;

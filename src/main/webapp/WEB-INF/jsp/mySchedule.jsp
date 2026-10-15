@@ -196,7 +196,7 @@
         });
     </script>
 </head>
-<body background="${pageContext.request.contextPath}/static/HTmoban/images/tongji.jpeg">
+<body background="${pageContext.request.contextPath}/static/assets/images/tongji.jpeg">
     <input type="hidden" id="today">
     <div class="panel panel-default">
         <div class="panel-body">

@@ -1,7 +1,8 @@
 package com.hyw.gym.service;
+// @author 黄元威
 
 import com.hyw.gym.common.Result;
-import com.hyw.gym.dao.MemberttypeDao;
+import com.hyw.gym.dao.MemberTypeDao;
 import com.hyw.gym.entity.Membertype;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ import java.util.Map;
 public class MembertypeDaoImpl {
 
     @Autowired
-    private MemberttypeDao memberttypeDao;
+    private MemberTypeDao memberttypeDao;
 
 
     /**

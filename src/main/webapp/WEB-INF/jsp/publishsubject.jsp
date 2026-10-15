@@ -23,7 +23,7 @@
 
     </script>
 </head>
-<body background="${pageContext.request.contextPath}/static/HTmoban/images/tongji.jpeg">
+<body background="${pageContext.request.contextPath}/static/assets/images/tongji.jpeg">
 
 </body>
 </html>

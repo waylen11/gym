@@ -1,4 +1,5 @@
 package com.hyw.gym.controller;
+// @author 黄元威
 
 import com.hyw.gym.dao.LoosDao;
 import com.hyw.gym.service.LoosDaoImpl;
@@ -31,13 +32,14 @@ public class LoosController {
     }
 
     /**
-     * @Description: 遗失物品管理-根据遗失物品名称分页查询
+     * @Description: 遗失物品管理-根据遗失物品名称/状态分页查询
      */
     @RequestMapping("/query")
     @ResponseBody
-    public Map<String,Object> query(String itemName, int pageSize, int pageNumber){
+    public Map<String,Object> query(String itemName, Integer status, int pageSize, int pageNumber){
         Map<String,Object>  map1=new HashMap<String,Object>();
         map1.put("itemName",itemName);
+        map1.put("status", status == null ? "" : status);
         map1.put("qi",(pageNumber-1)*pageSize);
         map1.put("shi",pageSize);
         return loosDaoImpl.query(map1);

@@ -1,4 +1,5 @@
 package com.hyw.gym.dao;
+// @author 黄元威
 
 import com.hyw.gym.entity.Chongzhi;
 import org.springframework.data.domain.Page;
@@ -14,7 +15,7 @@ import java.util.List;
  * @Description: 充值信息Dao层接口
  */
 
-public interface chongzhiDao extends JpaRepository<Chongzhi,Long> {
+public interface ChongzhiDao extends JpaRepository<Chongzhi,Long> {
 
     Page<Chongzhi> findAll(Specification<Chongzhi> specification, Pageable pageable);
 

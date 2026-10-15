@@ -1,4 +1,5 @@
 package com.hyw.gym.config;
+// @author 黄元威
 
 import com.hyw.gym.interceptor.LoginInterceptor;
 import lombok.RequiredArgsConstructor;

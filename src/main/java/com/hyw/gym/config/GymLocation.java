@@ -1,4 +1,5 @@
 package com.hyw.gym.config;
+// @author 黄元威
 
 /**
  * 健身房位置配置（签到地理围栏）

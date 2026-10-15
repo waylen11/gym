@@ -1,10 +1,11 @@
 package com.hyw.gym.service;
+// @author 黄元威
 
 import com.hyw.gym.common.Result;
 import com.hyw.gym.common.UserHolder;
-import com.hyw.gym.dao.MemberttypeDao;
+import com.hyw.gym.dao.MemberTypeDao;
 import com.hyw.gym.dao.UserDao;
-import com.hyw.gym.dao.chongzhiDao;
+import com.hyw.gym.dao.ChongzhiDao;
 import com.hyw.gym.dto.CardInfoVO;
 import com.hyw.gym.entity.Chongzhi;
 import com.hyw.gym.entity.Membertype;
@@ -28,9 +29,9 @@ public class MemberCardDaoImpl {
     @Autowired
     private UserDao userDao;
     @Autowired
-    private MemberttypeDao memberttypeDao;
+    private MemberTypeDao memberttypeDao;
     @Autowired
-    private chongzhiDao chongzhiDao;
+    private ChongzhiDao chongzhiDao;
     @Autowired
     private StringRedisTemplate redisTemplate;
 

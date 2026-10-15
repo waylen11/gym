@@ -1,4 +1,5 @@
 package com.hyw.gym.service;
+// @author 黄元威
 
 import com.hyw.gym.common.Result;
 import com.hyw.gym.dao.MessageDao;
@@ -15,9 +16,9 @@ public class MemberNoticeDaoimpl {
     @Autowired
     private MessageDao messageDao;
 
-    //查看所有公告
+    //查看所有公告（置顶优先）
     public Result<List<MessageDTO>> showNotices() {
-         List<Messages> messagesList=messageDao.findAll();
+         List<Messages> messagesList=messageDao.findAllOrdered();
          List<MessageDTO>messageDTOS=new ArrayList<>();
          for (Messages m:messagesList){
              MessageDTO messageDTO = new MessageDTO();

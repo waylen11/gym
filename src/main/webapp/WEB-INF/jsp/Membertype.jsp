@@ -1,4 +1,4 @@
-﻿
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <script src="${pageContext.request.contextPath}/static/jquery-3.2.1.min.js">
     window.onunload(alert("jin5"))
@@ -257,7 +257,7 @@
 
     </script>
 </head>
-<body background="${pageContext.request.contextPath}/static/HTmoban/images/tongji.jpeg">
+<body background="${pageContext.request.contextPath}/static/assets/images/tongji.jpeg">
     <%--    //查询--%>
     <div class="panel panel-default">
     <div class="panel-body">

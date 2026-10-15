@@ -1,4 +1,5 @@
 package com.hyw.gym.service;
+// @author 黄元威
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
@@ -64,8 +65,10 @@ public class MemberConsumeDaoImpl {
             }
             vos.add(vo);
         }
-        // 4. 写缓存 5 分钟
-        redisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(vos), CACHE_EXPIRE_MINUTES, TimeUnit.MINUTES);
+        // 4. 写缓存 5 分钟（仅缓存非空结果：空结果缓存会导致"数据更新后查不到"的不一致）
+        if (!vos.isEmpty()) {
+            redisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(vos), CACHE_EXPIRE_MINUTES, TimeUnit.MINUTES);
+        }
         return Result.success(vos);
     }
 }

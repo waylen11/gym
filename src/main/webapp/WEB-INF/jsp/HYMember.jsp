@@ -80,6 +80,7 @@
                         }
                     },
                     {field: 'memberXufei', title: '到期日期'},
+                    {field: 'points', title: '积分', sortable: true},
                     {
                         field: 'xx', title: '操作',
                         formatter: function (value, row, index) {
@@ -474,7 +475,7 @@
 
     </script>
 </head>
-<body background="${pageContext.request.contextPath}/static/HTmoban/images/tongji.jpeg">
+<body background="${pageContext.request.contextPath}/static/assets/images/tongji.jpeg">
 <%--    //查询--%>
 <div class="panel panel-default">
     <div class="panel-body">

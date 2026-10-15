@@ -1,6 +1,7 @@
 package com.hyw.gym.controller;
+// @author 黄元威
 
-import com.hyw.gym.dao.MemberttypeDao;
+import com.hyw.gym.dao.MemberTypeDao;
 import com.hyw.gym.service.MembertypeDaoImpl;
 import com.hyw.gym.entity.Membertype;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class MetypeController {
     @Autowired
     private MembertypeDaoImpl membertypeDaoImpl;
     @Autowired
-    private MemberttypeDao memberttypeDao;
+    private MemberTypeDao memberttypeDao;
 
     /**
      * @Description: 会员卡类型-删除

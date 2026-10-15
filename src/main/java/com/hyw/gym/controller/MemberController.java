@@ -1,9 +1,10 @@
 package com.hyw.gym.controller;
+// @author 黄元威
 
 
 import com.hyw.gym.dao.UserDao;
-import com.hyw.gym.dao.MemberttypeDao;
-import com.hyw.gym.dao.chongzhiDao;
+import com.hyw.gym.dao.MemberTypeDao;
+import com.hyw.gym.dao.ChongzhiDao;
 import com.hyw.gym.entity.Chongzhi;
 import com.hyw.gym.entity.Membertype;
 import com.hyw.gym.entity.User;
@@ -26,14 +27,14 @@ import java.util.Map;
 public class MemberController {
 
     @Autowired
-    private  chongzhiDao chongzhiDao;
+    private  ChongzhiDao chongzhiDao;
 
     @Autowired
     private UserDao userDao;
     @Autowired
     private MemberDaoImpl memberDaoImpl;
     @Autowired
-    private MemberttypeDao memberttypeDao;
+    private MemberTypeDao memberttypeDao;
 
     /**
      * @Description: 会员管理-进入会员到期界面

@@ -1,4 +1,5 @@
 package com.hyw.gym.service;
+// @author 黄元威
 
 import com.hyw.gym.dao.LoosDao;
 import com.hyw.gym.entity.Loos;
@@ -22,27 +23,48 @@ public class LoosDaoImpl {
     private EntityManager entityManager;
 
     /**
-     * @Description: 遗失物品管理service实现层-分页查询
+     * @Description: 遗失物品管理service实现层-分页查询（名称模糊 + 状态筛选，参数化防注入）
      */
     public Map<String,Object> query(Map<String,Object> map1){
-        //分页
-        String jpal="from Loos where 1=1";
-        if(map1.get("itemName")!=null && !map1.get("itemName").equals("")){
-            jpal=jpal+" and itemName like '%"+map1.get("itemName")+"%'";
+        String itemName = (String) map1.get("itemName");
+        Object statusObj = map1.get("status");
+        Integer status = (statusObj == null || statusObj.toString().isEmpty())
+                ? null : Integer.parseInt(statusObj.toString());
+
+        // 分页查询：参数绑定，避免字符串拼接注入
+        String jpal = "from Loos where 1=1";
+        if (itemName != null && !itemName.equals("")) {
+            jpal = jpal + " and itemName like :itemName";
         }
-        Query qu=entityManager.createQuery(jpal);
-        //起始页书
+        if (status != null) {
+            jpal = jpal + " and status = :status";
+        }
+        Query qu = entityManager.createQuery(jpal);
+        if (itemName != null && !itemName.equals("")) {
+            qu.setParameter("itemName", "%" + itemName + "%");
+        }
+        if (status != null) {
+            qu.setParameter("status", status);
+        }
         qu.setFirstResult((int)map1.get("qi"));
-        //结束页数
         qu.setMaxResults((int)map1.get("shi"));
 
-        //查询多少条数据
-        String jpa="select count(l) from Loos l where 1=1";
-
-        if(map1.get("itemName")!=null && !map1.get("itemName").equals("")){
-            jpa=jpa+" and itemName like '%"+map1.get("itemName")+"%'";
+        // 总数统计：参数同样绑定
+        String jpa = "select count(l) from Loos l where 1=1";
+        if (itemName != null && !itemName.equals("")) {
+            jpa = jpa + " and itemName like :itemName";
         }
-        Long count=(Long) entityManager.createQuery(jpa).getSingleResult();
+        if (status != null) {
+            jpa = jpa + " and status = :status";
+        }
+        Query countQuery = entityManager.createQuery(jpa);
+        if (itemName != null && !itemName.equals("")) {
+            countQuery.setParameter("itemName", "%" + itemName + "%");
+        }
+        if (status != null) {
+            countQuery.setParameter("status", status);
+        }
+        Long count = (Long) countQuery.getSingleResult();
         Map<String,Object> map=new HashMap<String,Object>();
         map.put("total",count);
         map.put("rows",qu.getResultList());

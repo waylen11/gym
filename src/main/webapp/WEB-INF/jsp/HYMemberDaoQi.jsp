@@ -139,7 +139,7 @@
         }
     </script>
 </head>
-<body background="${pageContext.request.contextPath}/static/HTmoban/images/tongji.jpeg">
+<body background="${pageContext.request.contextPath}/static/assets/images/tongji.jpeg">
     <%--    //查询--%>
     <div class="panel panel-default">
     <div class="panel-body">

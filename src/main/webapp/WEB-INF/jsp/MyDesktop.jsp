@@ -8,7 +8,7 @@
 <head>
     <title></title>
 </head>
-<body background="${pageContext.request.contextPath}/static/HTmoban/images/login.jpeg">
+<body background="${pageContext.request.contextPath}/static/assets/images/login.jpeg">
 
 </body>
 </html>

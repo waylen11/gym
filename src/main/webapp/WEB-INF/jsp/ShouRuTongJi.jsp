@@ -8,7 +8,7 @@
 <head>
     <title>收入统计图</title>
 </head>
-<body background="${pageContext.request.contextPath}/static/HTmoban/images/tongji.jpeg">
+<body background="${pageContext.request.contextPath}/static/assets/images/tongji.jpeg">
 <div class="panel panel-default">
     <div class="panel-body" style="width:400px; display: inline-block" >
         <select id="xuan" class="form-control" oninput="cha()" style="width:200px; margin-right: 10px; float: left">

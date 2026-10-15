@@ -1,4 +1,5 @@
 package com.hyw.gym.entity;
+// @author 黄元威
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,9 @@ public class Messages {
     private String publishTime;
 
     private String title;
+
+    @Column(name = "is_top")
+    private Integer isTop;
 
 
 }

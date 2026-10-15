@@ -26,7 +26,7 @@
         $(function () {
             $("#spid").change(function () {
                 var sid = $("#spid").val();
-                $.post("${pageContext.request.contextPath}/goods/cha",{"id":sid},function(e) {
+                $.post("${pageContext.request.contextPath}/goods/cha",{"goodsId":sid},function(e) {
                    // s.val(e.sellingPrice);
                     s = e.sellPrice;
                 })
@@ -169,23 +169,22 @@
 
 
             $.post('${pageContext.request.contextPath}/goods/cha',{'goodsId':spid},function(data){
-                $("#table").bootstrapTable("load",data) ;
                 if(data.stock>=count){
-                    $.post('${pageContext.request.contextPath}/goodinfo/add',{'member.id':hyid,'goods.id':spid,'quantity':count,'amount':j,'remark':remark},function(data){
-                        $("#table").bootstrapTable("load",data) ;
-                        $.post("${pageContext.request.contextPath}/goodinfo/query",{"pageSize":opt.pageSize,"pageNumber":opt.pageNumber,"goodsid":goodsid,"memberid":memberid},function (releset) {
-                            $("#table").bootstrapTable('load',releset) ;
-                        })
-                        // 现金支付:不操作会员余额,只扣商品库存
-                        $.post('${pageContext.request.contextPath}/goods/cha',{'goodsId':spid},function(data){
-                            var inventory = data.stock;
-                            var shu  = parseInt(inventory -count);
-                            $.post('${pageContext.request.contextPath}/goodinfo/updgoods',{'id':spid,'stock':shu},function(data){
-                            });
-                        });
-
-                        swal("添加！", "消费登记成功(现金支付)",
-                            "success");
+                    // 金额由后端按售价计算，前端只传 会员/商品/数量/备注
+                    $.post('${pageContext.request.contextPath}/goodinfo/add',{'member.id':hyid,'goods.id':spid,'quantity':count,'remark':remark},function(data){
+                        if(data.code == 200){
+                            $.post("${pageContext.request.contextPath}/goodinfo/query",{"pageSize":opt.pageSize,"pageNumber":opt.pageNumber,"goodsid":goodsid,"memberid":memberid},function (releset) {
+                                $("#table").bootstrapTable('load',releset) ;
+                            })
+                            swal("添加！", "消费登记成功(现金支付)",
+                                "success");
+                        }else{
+                            swal("失败！", data.message || "添加失败，请检查参数",
+                                "error");
+                            $.post("${pageContext.request.contextPath}/goodinfo/query",{"pageSize":opt.pageSize,"pageNumber":opt.pageNumber,"goodsid":goodsid,"memberid":memberid},function (releset) {
+                                $("#table").bootstrapTable('load',releset) ;
+                            })
+                        }
                     });
 
                 }else{
@@ -374,7 +373,7 @@
         }
     </script>
 </head>
-<body background="${pageContext.request.contextPath}/static/HTmoban/images/tongji.jpeg">
+<body background="${pageContext.request.contextPath}/static/assets/images/tongji.jpeg">
     <%--    //查询--%>
     <div class="panel panel-default">
     <div class="panel-body">

@@ -5,7 +5,7 @@
 </script>
 <html>
 <head>
-    <title>物品遗失</title>
+    <title>失物招领管理</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/table/bootstrap-table.min.css" />
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery-3.2.1.min.js"></script>
@@ -26,27 +26,27 @@
                 method:'post',
                 contentType:"application/x-www-form-urlencoded",
                 columns:[
-                    { field: 'id',title:'遗失物品编号',sortable: true},
-                    { field: 'itemName',title:'遗失物品名称',sortable: true},
-                    { field:'loosAddress',title:'在哪找的',sortable: true},
-                    { field: 'foundDate',title:'捡到时间',sortable: true},
-                    { field:'scavenger',title:'被谁捡到的',sortable: true},
-                    { field:'scavengerPhone',title:'被捡到的人的电话',sortable: true},
-                    { field: 'receiveDate',title:'领走时间',sortable: true},
+                    { field: 'id',title:'编号',sortable: true},
+                    { field: 'itemName',title:'物品名称',sortable: true},
+                    { field:'loosAddress',title:'拾取地点',sortable: true},
+                    { field: 'foundDate',title:'拾取时间',sortable: true},
+                    { field:'scavenger',title:'拾取人',sortable: true},
+                    { field:'scavengerPhone',title:'拾取人电话',sortable: true},
+                    { field: 'receiveDate',title:'认领时间',sortable: true},
                     { field: 'status',title:'状态',
                         sortable: true,
                         formatter: function (value, row, index) {
                             if (value == 0) {
-                                return "未领回";
+                                return "未认领";
                             }
-                            return "已领走";
+                            return "已认领";
                         }
                     },
                     {
                         field:'xx',title:'操作',
                         formatter : function(value, row, index) {
                             if(row.status==0 && ${user.userType} === 0){
-                                return "<a title='取回' href='javascript:quhui("
+                                return "<a title='认领登记' href='javascript:quhui("
                                     + row.id + ")'><span class='glyphicon glyphicon-arrow-right'>取回</span></a>";
                             }else{
                                 return "<a title='查看' href='javascript:chakan("
@@ -91,7 +91,7 @@
                 $("#qtime").val(data.receiveDate);
 
             })
-            $.post("${pageContext.request.contextPath}/loos/query",{"pageSize":opt.pageSize,"pageNumber":opt.pageNumber,"itemName":loosId},function (releset) {
+            $.post("${pageContext.request.contextPath}/loos/query",{"pageSize":opt.pageSize,"pageNumber":opt.pageNumber,"itemName":loosId,"status":$('#statusSel').val()},function (releset) {
                 $("#table").bootstrapTable('load',releset) ;
             })
         }
@@ -110,7 +110,7 @@
             $.post('${pageContext.request.contextPath}/loos/quhui',{'id':id,"status":state,"receiveName":dname,'receivePhone':dphone,'receiveDate':nahui},function(data){
 
                 $("#table").bootstrapTable("load",data) ;
-                $.post("${pageContext.request.contextPath}/loos/query",{"pageSize":opt.pageSize,"pageNumber":opt.pageNumber,"itemName":loosId},function (releset) {
+                $.post("${pageContext.request.contextPath}/loos/query",{"pageSize":opt.pageSize,"pageNumber":opt.pageNumber,"itemName":loosId,"status":$('#statusSel').val()},function (releset) {
                     $("#table").bootstrapTable('load',releset) ;
                 })
                 swal("修改！", "取回成功",
@@ -124,14 +124,14 @@
 
             var dname = $("#dname").val().trim();
             if(dname == null || dname == ""){
-                $("#dname").parent().append("<span style='color:red'>请填写丢失人姓名</span>");
+                $("#dname").parent().append("<span style='color:red'>请填写认领人姓名</span>");
                 return false;
             }
 
 
             var dphone = $("#dphone").val().trim();
             if(dphone == null || dphone == ""){
-                $("#dphone").parent().append("<span style='color:red'>请填写丢失人电话</span>");
+                $("#dphone").parent().append("<span style='color:red'>请填写认领人电话</span>");
                 return false;
             }
 
@@ -142,7 +142,7 @@
 
             var nahui = $("#nahui").val().trim();
             if(nahui == null || nahui == ""){
-                $("#nahui").parent().append("<span style='color:red'>请填写拿回物品日期</span>");
+                $("#nahui").parent().append("<span style='color:red'>请选择认领日期</span>");
                 return false;
             }
             return true;
@@ -154,7 +154,7 @@
             var i={
                 "pageSize":afds.pageSize,
                 "pageNumber":afds.pageNumber,
-                "itemName":$('#cardid').val(),
+                "itemName":$('#cardid').val(),"status":$('#statusSel').val(),
             };
             return i;
         }
@@ -163,7 +163,7 @@
             var opt=$('#table').bootstrapTable('getOptions');
             var loosId=$('#cardid').val();
 
-            $.post("${pageContext.request.contextPath}/loos/query",{"pageSize":opt.pageSize,"pageNumber":opt.pageNumber,"itemName":loosId},function (releset) {
+            $.post("${pageContext.request.contextPath}/loos/query",{"pageSize":opt.pageSize,"pageNumber":opt.pageNumber,"itemName":loosId,"status":$('#statusSel').val()},function (releset) {
                 $("#table").bootstrapTable('load',releset) ;
             })
         }
@@ -187,7 +187,7 @@
             $.post('${pageContext.request.contextPath}/loos/add',{'itemName':name,"loosImages":img,'loosAddress':address,'foundDate':time,"status":state,'scavenger':jname,'scavengerPhone':jphone,"admin":admin},function(data){
 
                 $("#table").bootstrapTable("load",data) ;
-                $.post("${pageContext.request.contextPath}/loos/query",{"pageSize":opt.pageSize,"pageNumber":opt.pageNumber,"itemName":loosId},function (releset) {
+                $.post("${pageContext.request.contextPath}/loos/query",{"pageSize":opt.pageSize,"pageNumber":opt.pageNumber,"itemName":loosId,"status":$('#statusSel').val()},function (releset) {
                     $("#table").bootstrapTable('load',releset) ;
                 })
                 swal("添加！", "添加成功",
@@ -204,31 +204,31 @@
 
             var name = $("#name").val().trim();
             if(name == null || name == ""){
-                $("#name").parent().append("<span style='color:red'>请填写遗失物名称</span>");
+                $("#name").parent().append("<span style='color:red'>请填写物品名称</span>");
                 return false;
             }
 
             var time = $("#time").val().trim();
             if(time == null || time == ""){
-                $("#time").parent().append("<span style='color:red'>请选择拾物时间</span>");
+                $("#time").parent().append("<span style='color:red'>请选择拾取时间</span>");
                 return false;
             }
 
             var address = $("#address").val().trim();
             if(address == null || address == ""){
-                $("#address").parent().append("<span style='color:red'>请填写拾物地点</span>");
+                $("#address").parent().append("<span style='color:red'>请填写拾取地点</span>");
                 return false;
             }
 
             var jname = $("#jname").val().trim();
             if(jname == null || jname == ""){
-                $("#jname").parent().append("<span style='color:red'>请填写拾物人姓名</span>");
+                $("#jname").parent().append("<span style='color:red'>请填写拾取人</span>");
                 return false;
             }
 
             var jphone = $("#jphone").val().trim();
             if(jphone == null || jphone == ""){
-                $("#jphone").parent().append("<span style='color:red'>请填写拾物人电话</span>");
+                $("#jphone").parent().append("<span style='color:red'>请填写拾取人电话</span>");
                 return false;
             }
 
@@ -252,17 +252,17 @@
 
     </script>
 </head>
-<body background="${pageContext.request.contextPath}/static/HTmoban/images/tongji.jpeg">
+<body background="${pageContext.request.contextPath}/static/assets/images/tongji.jpeg">
     <%--    //查询--%>
     <div class="panel panel-default">
     <div class="panel-body">
         <form class="form-inline">
             <div  class="input-group input-daterange">
-                <label for="cardid" class="control-label">拾取物名称:</label>
+                <label for="cardid" class="control-label">物品名称:</label>
                 <input id="cardid" type="text" class="form-control">
             </div>
-            <button onclick="search()" type="button" class="btn btn-default" style="margin-top: 20px" >查询</button>
-             <button type="button" class="btn btn-default" onclick="loos()" style="float: right; margin-top: 20px" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span>添加拾取物详情</button>
+            <label for="statusSel" class="control-label">状态:</label><select id="statusSel" class="form-control" style="width:120px; display:inline-block;"><option value="">全部</option><option value="0">未认领</option><option value="1">已认领</option></select><button onclick="search()" type="button" class="btn btn-default" style="margin-top: 20px" >查询</button>
+             <button type="button" class="btn btn-default" onclick="loos()" style="float: right; margin-top: 20px" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span>登记拾取物品</button>
       </form>
     </div>
 
@@ -279,37 +279,37 @@
                             aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">添加拾取物</h4>
+                    <h4 class="modal-title" id="myModalLabel">登记拾取物品</h4>
                 </div>
                 <div class="modal-body">
                     <!-- form开始 -->
                     <form>
                         <div class="form-group">
-                            <label for="name" class="col-sm-4 control-label"style="margin-top: 10px">遗失物名称</label>
+                            <label for="name" class="col-sm-4 control-label"style="margin-top: 10px">物品名称</label>
                             <div class="col-sm-8">
                                 <input type="text"style="margin-top: 10px" class="form-control" id="name" parsley-trigger="change" parsley-required="true" parsley-minlength="4" parsley-type="email" parsley-validation-minlength="1">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="time" class="col-sm-4 control-label"style="margin-top: 10px">拾物时间</label>
+                            <label for="time" class="col-sm-4 control-label"style="margin-top: 10px">拾取时间</label>
                             <div class="col-sm-8">
                                 <input type="date"style="margin-top: 10px" class="form-control" id="time" parsley-trigger="change" parsley-required="true" parsley-minlength="4" parsley-type="email" parsley-validation-minlength="1">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="address" class="col-sm-4 control-label"style="margin-top: 10px">拾物地点</label>
+                            <label for="address" class="col-sm-4 control-label"style="margin-top: 10px">拾取地点</label>
                             <div class="col-sm-8">
                                 <input type="text"style="margin-top: 10px" class="form-control" id="address" parsley-trigger="change" parsley-required="true" parsley-minlength="4" parsley-type="email" parsley-validation-minlength="1">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="jname" class="col-sm-4 control-label"style="margin-top: 10px">拾物人姓名</label>
+                            <label for="jname" class="col-sm-4 control-label"style="margin-top: 10px">拾取人</label>
                             <div class="col-sm-8">
                                 <input type="text"style="margin-top: 10px" class="form-control" id="jname" parsley-trigger="change" parsley-required="true" parsley-minlength="4" parsley-type="email" parsley-validation-minlength="1">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="jphone" class="col-sm-4 control-label"style="margin-top: 10px">拾物人电话</label>
+                            <label for="jphone" class="col-sm-4 control-label"style="margin-top: 10px">拾取人电话</label>
                             <div class="col-sm-8">
                                 <input type="text"style="margin-top: 10px" class="form-control" id="jphone" parsley-trigger="change" parsley-required="true" parsley-minlength="4" parsley-type="email" parsley-validation-minlength="1">
                             </div>
@@ -338,16 +338,16 @@
                     <!-- form开始 -->
                     <table id="sw"  style="width: 90%;margin: 0px auto">
                         <tr style="width: 100%;height: 80px">
-                            <td style="width: 300px;height: 35px;">拾取物名称：<input style="width: 140px;"  class="form-control" type="text" id="swmc" readonly></td>
-                            <td style="width:300px;height: 35px;">拾取人姓名：<input style="width: 140px;" class="form-control" type="text"  id="srxm" readonly></td>
+                            <td style="width: 300px;height: 35px;">物品名称：<input style="width: 140px;"  class="form-control" type="text" id="swmc" readonly></td>
+                            <td style="width:300px;height: 35px;">拾取人：<input style="width: 140px;" class="form-control" type="text"  id="srxm" readonly></td>
                             <td style="width:300px;height: 35px;">拾取人电话：<input style="width: 140px;"  class="form-control" type="text"  id="srdh" readonly></td>
-                            <td style="width:300px;height: 35px;">捡到时间：<input style="width: 140px;"  class="form-control" type="text"  id="jtime" readonly></td>
+                            <td style="width:300px;height: 35px;">拾取时间：<input style="width: 140px;"  class="form-control" type="text"  id="jtime" readonly></td>
                         </tr>
                         <tr style="width: 100%;height: 80px">
-                            <td style="width: 300px;height: 35px;">拾取物地点：<input style="width: 140px;"  class="form-control" type="text" id="swdd" readonly></td>
-                            <td style="width: 300px;height: 35px;">领走人姓名：<input style="width: 140px;"  class="form-control" type="text" id="dsxm" readonly></td>
-                            <td style="width: 300px;height: 35px;">领走人电话：<input style="width: 140px;"  class="form-control" type="text" id="dsdh" readonly></td>
-                            <td style="width:300px;height: 35px;">领取时间：<input style="width: 140px;"  class="form-control" type="text"  id="qtime" readonly></td>
+                            <td style="width: 300px;height: 35px;">拾取地点：<input style="width: 140px;"  class="form-control" type="text" id="swdd" readonly></td>
+                            <td style="width: 300px;height: 35px;">认领人：<input style="width: 140px;"  class="form-control" type="text" id="dsxm" readonly></td>
+                            <td style="width: 300px;height: 35px;">认领人电话：<input style="width: 140px;"  class="form-control" type="text" id="dsdh" readonly></td>
+                            <td style="width:300px;height: 35px;">认领时间：<input style="width: 140px;"  class="form-control" type="text"  id="qtime" readonly></td>
                         </tr>
                     </table>
                     &nbsp;
@@ -366,26 +366,26 @@
                             aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel2">取回遗失物品</h4>
+                    <h4 class="modal-title" id="myModalLabel2">认领登记</h4>
                 </div>
                 <div class="modal-body">
                     <!-- form开始 -->
                     <form>
                         <input type="hidden" id="id" name="id">
                         <div class="form-group">
-                            <label for="dname" class="col-sm-4 control-label"style="margin-top: 10px">丢失人姓名：</label>
+                            <label for="dname" class="col-sm-4 control-label"style="margin-top: 10px">认领人姓名：</label>
                             <div class="col-sm-8">
                                 <input type="text"style="margin-top: 10px" class="form-control" id="dname" parsley-trigger="change" parsley-required="true" parsley-minlength="4" parsley-type="email" parsley-validation-minlength="1">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="dphone" class="col-sm-4 control-label"style="margin-top: 10px">丢失人电话：</label>
+                            <label for="dphone" class="col-sm-4 control-label"style="margin-top: 10px">认领人电话：</label>
                             <div class="col-sm-8">
                                 <input type="text"style="margin-top: 10px" class="form-control" id="dphone" parsley-trigger="change" parsley-required="true" parsley-minlength="4" parsley-type="email" parsley-validation-minlength="1">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="nahui" class="col-sm-4 control-label"style="margin-top: 10px">拿回物品日期：</label>
+                            <label for="nahui" class="col-sm-4 control-label"style="margin-top: 10px">认领日期：</label>
                             <div class="col-sm-8">
                                 <input type="date"style="margin-top: 10px" class="form-control" id="nahui" parsley-trigger="change" parsley-required="true" parsley-minlength="4" parsley-type="email" parsley-validation-minlength="1">
                             </div>
@@ -394,7 +394,7 @@
                     &nbsp;
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button onclick="xxiu()"  type="button" class="btn btn-primary">修改</button>
+                        <button onclick="xxiu()"  type="button" class="btn btn-primary">确认认领</button>
                     </div>
                 </div>
             </div>

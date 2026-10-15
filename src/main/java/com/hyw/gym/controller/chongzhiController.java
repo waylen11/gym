@@ -1,8 +1,9 @@
 package com.hyw.gym.controller;
+// @author 黄元威
 
 
 import com.hyw.gym.dao.UserDao;
-import com.hyw.gym.dao.chongzhiDao;
+import com.hyw.gym.dao.ChongzhiDao;
 import com.hyw.gym.entity.Chongzhi;
 import com.hyw.gym.service.MemberDaoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,10 @@ import java.util.*;
  */
 @Controller
 @RequestMapping("/cz")
-public class chongzhiController {
+public class ChongzhiController {
 
     @Autowired
-    private chongzhiDao chongzhiDao;
+    private ChongzhiDao chongzhiDao;
 
     @Autowired
     private UserDao userDao;

@@ -4,24 +4,24 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>健身房管理系统1.0</title>
+	<title>健身房管理系统</title>
 	<meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-    <link rel="shortcut icon" href="${pageContext.request.contextPath}/static/HTmoban/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/HTmoban/css/font.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/HTmoban/css/xadmin.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/static/assets/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/assets/css/font.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/assets/css/xadmin.css">
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/static/HTmoban/lib/layui/layui.js" charset="utf-8"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/HTmoban/js/xadmin.js"></script>
+    <script src="${pageContext.request.contextPath}/static/assets/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/static/assets/js/xadmin.js"></script>
 
 </head>
 <body>
     <!-- 顶部开始 -->
     <div class="container">
-        <div class="logo"><a>健身房管理系统1.0</a></div>
+        <div class="logo"><a>健身房管理系统</a></div>
         <div class="left_open">
             <i title="展开左侧栏" class="iconfont">&#xe699;</i>
         </div>
@@ -106,7 +106,7 @@
     <!-- 底部开始 -->
     <div class="footer">
         <div align="center" class="copyright">
-            <a style=" text-decoration: none; color: #fff;" target="_blank">欢迎访问健身房管理系统</a>
+            <a style=" text-decoration: none; color: #fff;" target="_blank">© 2026 健身房管理系统 · 黄元威</a>
         </div>
     </div>
     <!-- 底部结束 -->

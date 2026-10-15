@@ -1,4 +1,5 @@
 package com.hyw.gym.util;
+// @author 黄元威
 
 /**
  * 地理距离工具：Haversine 公式计算两点球面距离

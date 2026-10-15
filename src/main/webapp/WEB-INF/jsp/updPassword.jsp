@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-    <link rel="shortcut icon" href="${pageContext.request.contextPath}/static/HTmoban/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/HTmoban/css/font.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/HTmoban/css/updxadmin.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/static/assets/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/assets/css/font.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/assets/css/updxadmin.css">
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/static/HTmoban/lib/layui/layui.js" charset="utf-8"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/HTmoban/js/xadmin.js"></script>
+    <script src="${pageContext.request.contextPath}/static/assets/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/static/assets/js/xadmin.js"></script>
 
 </head>
 <body class="login-bg">

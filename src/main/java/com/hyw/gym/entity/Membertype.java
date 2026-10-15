@@ -1,4 +1,5 @@
 package com.hyw.gym.entity;
+// @author 黄元威
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;

@@ -1,4 +1,5 @@
 package com.hyw.gym.controller;
+// @author 黄元威
 import com.hyw.gym.dao.GoodInfoDao;
 import com.hyw.gym.dao.GoodsDao;
 import com.hyw.gym.service.GoodsDaoImpl;

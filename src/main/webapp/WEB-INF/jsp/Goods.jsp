@@ -54,6 +54,9 @@
             {
                 field: 'description',
                 title: '备注'
+            },{
+                field: 'pointsPrice',
+                title: '积分价'
             }, {
                         field:'xx',title:'操作',
                         formatter : function(value, row, index) {
@@ -83,6 +86,7 @@
                             $('#bz').val(data.description);
                             $('#did').val(data.id);
                             $('#spsl').val(data.stock);
+                            $('#jf').val(data.pointsPrice == null ? 0 : data.pointsPrice);
                     }) ;
                 }
             })
@@ -150,11 +154,12 @@
             var unitprice = $("#unitprice").val();
             var sellprice= $("#sellprice").val();
             var remark = $('#remark').val();
+            var pointsPrice = $("#pointsPriceAdd").val();
             $("#myModal").modal("hide") ;
             $.post("${pageContext.request.contextPath}/goods/count",{"goodsName":name},function (releset) {
                 $("#table").bootstrapTable('load',releset) ;
                 if(releset<1){
-                    $.post('${pageContext.request.contextPath}/goods/add',{'goodsName':name,'unit':unit,'price':unitprice,'sellPrice':sellprice,'stock':count,"description":remark},function(data){
+                    $.post('${pageContext.request.contextPath}/goods/add',{'goodsName':name,'unit':unit,'price':unitprice,'sellPrice':sellprice,'stock':count,"description":remark,'pointsPrice':pointsPrice},function(data){
                         $("#table").bootstrapTable("load",data) ;
                         $.post("${pageContext.request.contextPath}/goods/query",{"pageSize":opt.pageSize,"pageNumber":opt.pageNumber,"goodsname":goodsid},function (releset) {
                             $("#table").bootstrapTable('load',releset) ;
@@ -257,8 +262,9 @@
             var remark = $('#bz').val();
             var id = $('#did').val();
             var count = $('#spsl').val();
+            var pointsPrice = $('#jf').val();
             $("#myModal3").modal("hide") ;
-            $.post('${pageContext.request.contextPath}/goods/update',{'id':id,'goodsName':name,"unit":unit,"price":unitprice,"sellPrice":sellprice,"stock":count,"description":remark},function(data){
+            $.post('${pageContext.request.contextPath}/goods/update',{'id':id,'goodsName':name,"unit":unit,"price":unitprice,"sellPrice":sellprice,"stock":count,"description":remark,'pointsPrice':pointsPrice},function(data){
                 $.post("${pageContext.request.contextPath}/goods/query",{"pageSize":opt.pageSize,"pageNumber":opt.pageNumber,"goodsname":goodsid},function (releset) {
                     $("#table").bootstrapTable('load',releset) ;
                 })
@@ -384,6 +390,7 @@
             $("#unitprice").val("");
             $("#sellprice").val("");
             $("#remark").val("");
+            $("#pointsPriceAdd").val("");
         }
         function upd2(){
             if(!validateUpd1()){
@@ -416,7 +423,7 @@
         }
     </script>
 </head>
-<body background="${pageContext.request.contextPath}/static/HTmoban/images/tongji.jpeg">
+<body background="${pageContext.request.contextPath}/static/assets/images/tongji.jpeg">
     <%--    //查询--%>
     <div class="panel panel-default">
     <div class="panel-body">
@@ -491,6 +498,12 @@
                                 <input type="text"style="margin-top: 10px" class="form-control" id="remark" parsley-trigger="change" parsley-required="true" parsley-minlength="4" parsley-type="email" parsley-validation-minlength="1">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="pointsPriceAdd" class="col-sm-4 control-label"style="margin-top: 10px">积分价</label>
+                            <div class="col-sm-8">
+                                <input type="text" style="margin-top: 10px" class="form-control" id="pointsPriceAdd" placeholder="多少积分可兑换，0=不参与积分兑换">
+                            </div>
+                        </div>
                     </form>
                     &nbsp;
                     <div class="modal-footer">
@@ -559,6 +572,13 @@
                             <label for="remark" class="col-sm-4 control-label"style="margin-top: 10px">备注</label>
                             <div class="col-sm-8">
                                 <input type="text"style="margin-top: 10px" class="form-control" id="bz" parsley-trigger="change" parsley-required="true" parsley-minlength="4" parsley-type="email" parsley-validation-minlength="1">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="jf" class="col-sm-4 control-label"style="margin-top: 10px">积分价</label>
+                            <div class="col-sm-8">
+                                <input type="text" style="margin-top: 10px" class="form-control" id="jf" placeholder="多少积分可兑换，0=不参与积分兑换">
                             </div>
                         </div>
                     </form>

@@ -1,4 +1,5 @@
 package com.hyw.gym.service;
+// @author 黄元威
 
 import com.hyw.gym.common.Result;
 import com.hyw.gym.common.UserHolder;
@@ -117,11 +118,27 @@ public class MemberSignDaoImpl {
                 SIGN_RANK_PREFIX + today.format(MONTH_FMT),
                 String.valueOf(memberId), 1);
 
-        // 10. 组装返回
+        // 10. 积分奖励：每天签到 +10；连续满 7 天额外 +50；连续满 30 天额外 +200
+        int earnPoints = 10;
+        if (continuousDays % 7 == 0) {
+            earnPoints += 50;
+        }
+        if (continuousDays == 30) {
+            earnPoints += 200;
+        }
+        User memberUpd = userDao.findById(memberId).orElse(current);
+        int oldPoints = memberUpd.getPoints() == null ? 0 : memberUpd.getPoints();
+        int totalPoints = oldPoints + earnPoints;
+        memberUpd.setPoints(totalPoints);
+        userDao.save(memberUpd);
+
+        // 11. 组装返回
         SignResultDTO dto = new SignResultDTO();
         dto.setSigned(true);
         dto.setContinuousDays(continuousDays);
-        dto.setMessage("签到成功，连续签到" + continuousDays + "天");
+        dto.setEarnPoints(earnPoints);
+        dto.setTotalPoints(totalPoints);
+        dto.setMessage("签到成功，连续签到" + continuousDays + "天，获得" + earnPoints + "积分");
         return Result.success(dto);
     }
 
@@ -157,11 +174,20 @@ public class MemberSignDaoImpl {
             }
         }
 
-        // 5. 组装
+        // 5. 积分余额（重新查库，UserHolder 里是登录时快照，可能不是最新）
+        User fresh = userDao.findById(memberId).orElse(null);
+        int points = (fresh == null || fresh.getPoints() == null) ? 0 : fresh.getPoints();
+
+        // 6. 距下次周奖励还差几天（满 7 天额外 +50）
+        int nextRewardRemain = 7 - (continuousDays % 7);
+
+        // 7. 组装
         SignStatusDTO dto = new SignStatusDTO();
         dto.setSigned(signed);
         dto.setContinuousDays(continuousDays);
         dto.setMonthCount(monthCount == null ? 0 : monthCount.intValue());
+        dto.setPoints(points);
+        dto.setNextRewardRemain(nextRewardRemain);
         dto.setMessage(signed ? "今日已签到" : "今日未签到");
         return Result.success(dto);
     }

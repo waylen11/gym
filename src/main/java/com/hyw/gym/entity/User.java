@@ -1,4 +1,5 @@
 package com.hyw.gym.entity;
+// @author 黄元威
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -42,4 +43,5 @@ private Integer remainingDays;
 private java.sql.Date memberXufei;
 @Column(name = "create_time")
 private java.sql.Timestamp createTime;
+private Integer points;
 }

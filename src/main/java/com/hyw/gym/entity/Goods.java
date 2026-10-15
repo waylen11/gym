@@ -1,4 +1,5 @@
 package com.hyw.gym.entity;
+// @author 黄元威
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,4 +24,5 @@ public class Goods implements java.io.Serializable {
     private double sellPrice;
     private Integer stock;
     private String description;
+    private Integer pointsPrice;
 }

@@ -1,9 +1,10 @@
 package com.hyw.gym.service;
+// @author 黄元威
 
 import com.hyw.gym.dao.GoodInfoDao;
 import com.hyw.gym.dao.PrivateCoachInfoDao;
 import com.hyw.gym.dao.UserDao;
-import com.hyw.gym.dao.chongzhiDao;
+import com.hyw.gym.dao.ChongzhiDao;
 import com.hyw.gym.entity.Chongzhi;
 import com.hyw.gym.entity.GoodInfo;
 import com.hyw.gym.entity.PrivateCoachInfo;
@@ -40,7 +41,7 @@ public class MemberDaoImpl {
     private GoodInfoDao goodInfoDao;
 
     @Autowired
-    private chongzhiDao chongZhiDao;
+    private ChongzhiDao chongZhiDao;
 
     @PersistenceContext
     private EntityManager entityManager;

@@ -1,6 +1,7 @@
 package com.hyw.gym.config;
+// @author 黄元威
 
-import com.hyw.gym.real.MyRealm;
+import com.hyw.gym.realm.MyRealm;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;

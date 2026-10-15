@@ -56,10 +56,12 @@
                 return;
             }
             var message = $("#message").val().trim();
+            var isTop = $("#isTop").is(":checked") ? 1 : 0;
 
             $.post("${pageContext.request.contextPath}/message/insert", {
                 'content': message,
-                "publisher.id": ${user.id}
+                "publisher.id": ${user.id},
+                'isTop': isTop
             }, function (releset) {
                 if (releset != null) {
                     fresh()
@@ -149,6 +151,9 @@
         </div>
     </form>
     <div style="margin-top: 10px">
+        <label style="font-weight: normal; margin-right: 15px;">
+            <input type="checkbox" id="isTop"> 置顶此公告（会员端优先展示）
+        </label>
         <button onclick="save()" id="add" type="button" class="btn btn-primary">提交留言</button>
         <button onclick="fresh()" id="fresh" type="button" class="btn btn-primary">刷新留言板</button>
     </div>
