@@ -1,0 +1,35 @@
+/* 全局主题：活力橙 */
+:root {
+  --van-primary-color: #ff6b35;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  background: #f6f7f9;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
+    'Segoe UI', Arial, Roboto, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft Yahei', sans-serif;
+}
+
+/* 白底圆角卡片 */
+.card-box {
+  background: #fff;
+  border-radius: 12px;
+  margin: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* 页面通用内边距 */
+.page {
+  padding-bottom: 24px;
+}
+
+/* 带 Tabbar 的页面留出底部空间 */
+.has-tabbar {
+  padding-bottom: 70px;
+}

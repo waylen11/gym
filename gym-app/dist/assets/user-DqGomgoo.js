@@ -1,0 +1,1 @@
+import{p as t}from"./index-XTGMOHoe.js";const n=t("user",{state:()=>({token:localStorage.getItem("token")||"",info:null}),actions:{setToken(e){this.token=e,localStorage.setItem("token",e)},logout(){this.token="",this.info=null,localStorage.removeItem("token")}}});export{n as u};
